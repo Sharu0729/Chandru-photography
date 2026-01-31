@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Gallery | CHANDRU Photography</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- NAVBAR -->
+    <div class="navbar">
+        <ul class="nav-links">
+            <li><a href="index.html">🏠 Home</a></li>
+            <li><a href="gallery.html" class="active">🖼 Gallery</a></li>
+            <li><a href="about.html">👤 About</a></li>
+            <li><a href="contact.html">📞 Contact</a></li>
+        </ul>
+    </div>
+    <center><h1 class="page-title">Wedding Albums</h1></center>
+    <div class="album-grid">
+        <!-- Album 1 -->
+        <div class="photo-card">
+            <div class="album-view">
+                <img src="album1.0.jpg" class="album-main-img" onclick="openAlbum(0)">
+            </div>
+            <h3>Timeless Memories</h3><h4>Size:12'*9'<br>
+            ₹10000-20000</h4>
+        </div>
+        <!-- Album 2 -->
+        <div class="photo-card">
+            <div class="album-view">
+                <img src="album2.0.jpg" class="album-main-img" onclick="openAlbum(1)">
+            </div>
+            <h3>Love & Emotions</h3><h4>Size:13'*10'<br>
+                ₹15000-25000</h4>
+        </div>
+        <!-- Album 3 -->
+        <div class="photo-card">
+            <div class="album-view">
+                <img src="album3.0.jpg" class="album-main-img" onclick="openAlbum(2)">
+            </div>
+            <h3>Moments Made Eternal</h3><h4>Size:12'*12' <br>
+                ₹20000-30000</h4>
+        </div>
+    </div>
+
+    <!-- Album Modal -->
+    <div id="albumModal" class="modal">
+        <span class="close" onclick="closeAlbum()">&times;</span>
+        <div class="album-photos" id="albumPhotos">
+            <!-- Photos will be generated dynamically -->
+        </div>
+    </div>
+
+    <!-- Image Modal -->
+    <div id="imageModal" class="modal">
+        <span class="close" onclick="closeImageModal()">&times;</span>
+        <img id="modalImage" class="modal-content">
+        <div class="nav-btn left" onclick="prevImage()">❮</div>
+        <div class="nav-btn right" onclick="nextImage()">❯</div>
+    </div>
+
+    <script>
+        const albums = [
+            {
+                title: "Timeless Memories",
+                photos: ["ALBUMS/album1.0.jpg", "ALBUMS/album1.1.jpg", "ALBUMS/album1.2.jpg", "ALBUMS/album1.3.jpg"]
+            },
+            {
+                title: "Love & Emotions",
+                photos: ["ALBUMS/album2.0.jpg", "ALBUMS/album2.1.jpg", "ALBUMS/album2.2.jpg", "ALBUMS/album2.3.jpg"]
+            },
+            {
+                title: "Moments Made Eternal",
+                photos: ["ALBUMS/album3.0.jpg", "ALBUMS/album3.1.jpg", "ALBUMS/album3.2.jpg", "ALBUMS/album3.3.jpg"]
+            }
+        ];
+        let currentAlbumIndex = 0;
+        let currentImageIndex = 0;
+
+        function openAlbum(index) {
+            currentAlbumIndex = index;
+            const albumPhotos = document.getElementById("albumPhotos");
+            albumPhotos.innerHTML = "";
+            albums[currentAlbumIndex].photos.forEach((photo, i) => {
+                albumPhotos.innerHTML += `<img src="${photo}" onclick="openImage(${i})">`;
+            });
+            document.getElementById("albumModal").style.display = "block";
+        }
+
+        function closeAlbum() {
+            document.getElementById("albumModal").style.display = "none";
+        }
+
+        function openImage(index) {
+            currentImageIndex = index;
+            document.getElementById("modalImage").src = albums[currentAlbumIndex].photos[currentImageIndex];
+            document.getElementById("imageModal").style.display = "block";
+        }
+
+        function closeImageModal() {
+            document.getElementById("imageModal").style.display = "none";
+        }
+
+        function nextImage() {
+            currentImageIndex = (currentImageIndex + 1) % albums[currentAlbumIndex].photos.length;
+            document.getElementById("modalImage").src = albums[currentAlbumIndex].photos[currentImageIndex];
+        }
+
+        function prevImage() {
+            currentImageIndex = (currentImageIndex - 1 + albums[currentAlbumIndex].photos.length) % albums[currentAlbumIndex].photos.length;
+            document.getElementById("modalImage").src = albums[currentAlbumIndex].photos[currentImageIndex];
+        }
+    </script>
+</body>
+</html>
